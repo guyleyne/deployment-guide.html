@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyCarbone - Guide Entreprise</title>
+    <title>MyCarbone - Guide de déploiement entreprise</title>
     <style>
         * {
             margin: 0;
@@ -34,6 +34,16 @@
             font-size: 2.5rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
+        }
+        .header .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+        .header .domain {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            font-family: monospace;
         }
         .badge {
             display: inline-block;
@@ -99,6 +109,7 @@
             background: #e2e8f0;
             padding: 1rem;
             text-align: left;
+            font-weight: 600;
         }
         td {
             padding: 1rem;
@@ -109,28 +120,52 @@
             padding: 2rem 3rem;
             text-align: center;
             border-top: 1px solid #e2e8f0;
+            color: #475569;
+        }
+        .footer a {
+            color: #1e3a5f;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .meta-info {
+            display: flex;
+            gap: 2rem;
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
         }
         @media (max-width: 640px) {
             .header { padding: 2rem 1.5rem; }
             .content { padding: 2rem 1.5rem; }
             .footer { padding: 2rem 1.5rem; }
+            .header h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>MyCarbone Entreprise</h1>
-            <p style="font-size: 1.2rem;">Guide de déploiement · v4.1.0</p>
-            <div class="badge">👔 Pour administrateurs IT et DSI</div>
+            <h1>MyCarbone</h1>
+            <div class="subtitle">Guide de déploiement entreprise</div>
+            <div class="domain">legal.mycarbone/deployment-guide</div>
+            <div class="badge">Documentation technique · v4.1.0</div>
         </div>
         
         <div class="content">
-            <div class="alert-important">
-                <strong>🔐 IMPORTANT :</strong> MyCarbone ne collecte aucune donnée personnelle et ne communique avec aucun serveur externe. Tout est stocké localement dans le profil navigateur de chaque utilisateur. Aucune infrastructure cloud requise.
+            <div class="meta-info">
+                <span>Version 4.1.0 · 21 février 2026</span>
+                <span>contact@mycarbone.app</span>
             </div>
 
-            <h2>1. Prérequis</h2>
+            <div class="alert-important">
+                <strong>PRINCIPE FONDAMENTAL :</strong> MyCarbone ne collecte aucune donnée personnelle et ne communique avec aucun serveur externe. Architecture 100% locale, aucune infrastructure cloud requise.
+            </div>
+
+            <h2>1. Prérequis techniques</h2>
             
             <h3>Navigateurs supportés</h3>
             <table>
@@ -151,27 +186,27 @@
                 <li><code>activeTab</code> — Accès à l'onglet actif</li>
             </ul>
 
-            <h2>2. Déploiement Chrome/Edge/Brave</h2>
+            <h2>2. Déploiement Chrome / Edge / Brave</h2>
             
             <div class="platform-box">
-                <h3>📊 Google Workspace</h3>
+                <h3>Google Workspace</h3>
                 <ol>
                     <li>Connectez-vous à <code>admin.google.com</code></li>
                     <li>Appareils > Chrome > Applications et extensions</li>
-                    <li>Ajouter depuis un fichier (uploader MyCarbone.zip)</li>
-                    <li>Forcer l'installation sur les UO cibles</li>
+                    <li>Ajouter l'extension via l'ID Chrome Web Store</li>
+                    <li>Forcer l'installation sur les unités d'organisation cibles</li>
                 </ol>
             </div>
 
             <div class="platform-box">
-                <h3>💼 Microsoft Intune</h3>
+                <h3>Microsoft Intune</h3>
                 <pre>ExtensionInstallForcelist = [
   "ID_EXTENSION;https://clients2.google.com/service/update2/crx"
 ]</pre>
             </div>
 
             <div class="platform-box">
-                <h3>🏢 GPO Active Directory</h3>
+                <h3>GPO Active Directory</h3>
                 <p>Configuration ordinateur > Modèles d'administration > Google Chrome > Extensions > Configurer la liste des extensions imposées</p>
             </div>
 
@@ -196,21 +231,23 @@
 
             <h2>5. Sécurité et conformité</h2>
             <ul>
-                <li>✅ Aucune connexion réseau sortante</li>
-                <li>✅ Aucun stockage cloud</li>
-                <li>✅ Aucun accès au contenu des pages</li>
-                <li>✅ Code source auditable sur demande</li>
-                <li>✅ Conforme RGPD par conception</li>
+                <li>Aucune connexion réseau sortante</li>
+                <li>Aucun stockage cloud</li>
+                <li>Aucun accès au contenu des pages</li>
+                <li>Code source auditable sur demande</li>
+                <li>Conforme RGPD par conception</li>
             </ul>
 
             <h2>6. Support entreprise</h2>
-            <p style="font-size: 1.2rem;">📧 <strong>contact@mycarbone.app</strong></p>
-            <p>Objet : [Entreprise] Votre demande<br>Réponse garantie sous 24h ouvrables</p>
+            <p style="font-size: 1.2rem; margin-top: 1rem;"><strong>contact@mycarbone.app</strong></p>
+            <p>Objet : [Entreprise] Votre demande<br>Réponse garantie sous 24 heures ouvrées</p>
         </div>
         
         <div class="footer">
-            <p>© 2026 MyCarbone · v4.1.0</p>
-            <p><a href="index.html" style="color: #1e3a5f;">← Retour à la politique de confidentialité</a></p>
+            <p>© 2026 MyCarbone · Extension indépendante</p>
+            <p style="margin-top: 0.5rem;">
+                <a href="index.html">Politique de confidentialité</a>
+            </p>
         </div>
     </div>
 </body>
