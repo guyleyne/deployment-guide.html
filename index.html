@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyCarbone - Guide Entreprise</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: #f8fafc;
+            color: #0f172a;
+            line-height: 1.6;
+            padding: 2rem 1rem;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e3a5f 0%, #2b4c7c 100%);
+            color: white;
+            padding: 2.5rem 3rem;
+        }
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            margin-top: 1rem;
+        }
+        .content {
+            padding: 3rem;
+        }
+        .alert-important {
+            background: #fff3cd;
+            border: 1px solid #ffe69c;
+            color: #856404;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        h2 {
+            color: #1e3a5f;
+            font-size: 1.8rem;
+            margin: 2rem 0 1rem;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 0.5rem;
+        }
+        h3 {
+            color: #2b4c7c;
+            font-size: 1.3rem;
+            margin: 1.5rem 0 1rem;
+        }
+        .platform-box {
+            background: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 1rem 0;
+            border-left: 4px solid #2b4c7c;
+        }
+        code {
+            background: #e2e8f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+        }
+        pre {
+            background: #0f172a;
+            color: #e2e8f0;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        th {
+            background: #e2e8f0;
+            padding: 1rem;
+            text-align: left;
+        }
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .footer {
+            background: #f1f5f9;
+            padding: 2rem 3rem;
+            text-align: center;
+            border-top: 1px solid #e2e8f0;
+        }
+        @media (max-width: 640px) {
+            .header { padding: 2rem 1.5rem; }
+            .content { padding: 2rem 1.5rem; }
+            .footer { padding: 2rem 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>MyCarbone Entreprise</h1>
+            <p style="font-size: 1.2rem;">Guide de déploiement · v4.1.0</p>
+            <div class="badge">👔 Pour administrateurs IT et DSI</div>
+        </div>
+        
+        <div class="content">
+            <div class="alert-important">
+                <strong>🔐 IMPORTANT :</strong> MyCarbone ne collecte aucune donnée personnelle et ne communique avec aucun serveur externe. Tout est stocké localement dans le profil navigateur de chaque utilisateur. Aucune infrastructure cloud requise.
+            </div>
+
+            <h2>1. Prérequis</h2>
+            
+            <h3>Navigateurs supportés</h3>
+            <table>
+                <tr><th>Navigateur</th><th>Version minimum</th></tr>
+                <tr><td>Google Chrome</td><td>88+ (Manifest V3)</td></tr>
+                <tr><td>Microsoft Edge</td><td>88+</td></tr>
+                <tr><td>Brave</td><td>1.20+</td></tr>
+                <tr><td>Firefox</td><td>91+</td></tr>
+                <tr><td>Safari</td><td>Non supporté</td></tr>
+            </table>
+
+            <h3>Permissions requises</h3>
+            <ul>
+                <li><code>storage</code> — Stockage local des statistiques</li>
+                <li><code>webRequest</code> — Interception des requêtes IA</li>
+                <li><code>notifications</code> — Alertes budget (optionnel)</li>
+                <li><code>downloads</code> — Génération des rapports PDF</li>
+                <li><code>activeTab</code> — Accès à l'onglet actif</li>
+            </ul>
+
+            <h2>2. Déploiement Chrome/Edge/Brave</h2>
+            
+            <div class="platform-box">
+                <h3>📊 Google Workspace</h3>
+                <ol>
+                    <li>Connectez-vous à <code>admin.google.com</code></li>
+                    <li>Appareils > Chrome > Applications et extensions</li>
+                    <li>Ajouter depuis un fichier (uploader MyCarbone.zip)</li>
+                    <li>Forcer l'installation sur les UO cibles</li>
+                </ol>
+            </div>
+
+            <div class="platform-box">
+                <h3>💼 Microsoft Intune</h3>
+                <pre>ExtensionInstallForcelist = [
+  "ID_EXTENSION;https://clients2.google.com/service/update2/crx"
+]</pre>
+            </div>
+
+            <div class="platform-box">
+                <h3>🏢 GPO Active Directory</h3>
+                <p>Configuration ordinateur > Modèles d'administration > Google Chrome > Extensions > Configurer la liste des extensions imposées</p>
+            </div>
+
+            <h2>3. Déploiement Firefox</h2>
+            
+            <p>Fichier <code>policies.json</code> à placer dans le dossier d'installation :</p>
+            <pre>{
+  "policies": {
+    "Extensions": {
+      "Install": ["https://votre-serveur/mycarbone.xpi"],
+      "Locked": ["mycarbone@extension"]
+    }
+  }
+}</pre>
+
+            <h2>4. Configuration centralisée</h2>
+            <p>Script d'injection de configuration par défaut :</p>
+            <pre>chrome.storage.local.set({
+  budget: { enabled: true, daily: 50 },
+  lastResetDate: new Date().toDateString()
+});</pre>
+
+            <h2>5. Sécurité et conformité</h2>
+            <ul>
+                <li>✅ Aucune connexion réseau sortante</li>
+                <li>✅ Aucun stockage cloud</li>
+                <li>✅ Aucun accès au contenu des pages</li>
+                <li>✅ Code source auditable sur demande</li>
+                <li>✅ Conforme RGPD par conception</li>
+            </ul>
+
+            <h2>6. Support entreprise</h2>
+            <p style="font-size: 1.2rem;">📧 <strong>contact@mycarbone.app</strong></p>
+            <p>Objet : [Entreprise] Votre demande<br>Réponse garantie sous 24h ouvrables</p>
+        </div>
+        
+        <div class="footer">
+            <p>© 2026 MyCarbone · v4.1.0</p>
+            <p><a href="index.html" style="color: #1e3a5f;">← Retour à la politique de confidentialité</a></p>
+        </div>
+    </div>
+</body>
+</html>
