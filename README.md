@@ -6,7 +6,7 @@
 
 ## Accès direct
 
-**https://guyleyne.github.io/deployment-guide/**
+**https://guyleyne.github.io/deployment-guide.html/**
 
 Cette page constitue la documentation officielle de déploiement de l'extension MyCarbone pour les environnements professionnels.
 
