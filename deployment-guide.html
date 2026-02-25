@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MyCarbone — Guide de déploiement entreprise</title>
+  <style>
+    :root {
+      --ink:      #080d13;
+      --surface:  #0c1420;
+      --panel:    #111c2a;
+      --line:     rgba(255,255,255,0.07);
+      --line-mid: rgba(255,255,255,0.12);
+      --accent:   #4A9EFF;
+      --green:    #34C98A;
+      --amber:    #F5A623;
+      --text-hi:  #F0F6FF;
+      --text-mid: #8BA8C4;
+      --text-lo:  #435B72;
+      --r:        6px;
+      --r2:       10px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--ink);
+      color: var(--text-hi);
+      font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line-mid);
+      padding: 20px 0;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand-name {
+      font-family: 'Courier New', monospace;
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-hi);
+      letter-spacing: 0.02em;
+    }
+
+    .brand-sub {
+      font-size: 11px;
+      color: var(--text-lo);
+      margin-top: 1px;
+    }
+
+    .header-badge {
+      background: rgba(74,158,255,0.12);
+      border: 1px solid rgba(74,158,255,0.3);
+      border-radius: 20px;
+      padding: 4px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent);
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.5px;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 56px 24px 40px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero-tag {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 2px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--text-hi);
+      margin-bottom: 16px;
+      letter-spacing: -0.5px;
+    }
+
+    .hero-desc {
+      font-size: 15px;
+      color: var(--text-mid);
+      max-width: 580px;
+      line-height: 1.7;
+      margin-bottom: 28px;
+    }
+
+    .hero-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .hero-meta-item {
+      font-family: 'Courier New', monospace;
+      font-size: 11px;
+      color: var(--text-lo);
+    }
+
+    .hero-meta-item span {
+      color: var(--text-mid);
+    }
+
+    /* ── Privacy banner ── */
+    .privacy-banner {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      margin-top: 32px;
+    }
+
+    .privacy-alert {
+      background: rgba(52,201,138,0.07);
+      border: 1px solid rgba(52,201,138,0.25);
+      border-left: 3px solid var(--green);
+      border-radius: var(--r);
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+
+    .privacy-alert strong { color: var(--green); }
+
+    /* ── Layout ── */
+    .layout {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 40px;
+      align-items: start;
+      padding-top: 40px;
+      padding-bottom: 80px;
+    }
+
+    /* ── TOC Sidebar ── */
+    .toc {
+      position: sticky;
+      top: 80px;
+    }
+
+    .toc-title {
+      font-family: 'Courier New', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 1.8px;
+      color: var(--text-lo);
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    .toc ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .toc a {
+      display: block;
+      padding: 6px 10px;
+      font-size: 12px;
+      color: var(--text-lo);
+      text-decoration: none;
+      border-radius: var(--r);
+      transition: color 0.15s, background 0.15s;
+      border-left: 2px solid transparent;
+    }
+
+    .toc a:hover {
+      color: var(--text-mid);
+      background: rgba(255,255,255,0.03);
+    }
+
+    .toc a.sub {
+      padding-left: 20px;
+      font-size: 11px;
+    }
+
+    /* ── Content ── */
+    .content section {
+      margin-bottom: 48px;
+    }
+
+    .section-num {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .content h2 {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text-hi);
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line-mid);
+    }
+
+    .content h3 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-mid);
+      margin-bottom: 14px;
+      margin-top: 28px;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.5px;
+    }
+
+    .content h3:first-of-type { margin-top: 0; }
+
+    .content p {
+      font-size: 14px;
+      color: var(--text-mid);
+      margin-bottom: 14px;
+      line-height: 1.75;
+    }
+
+    /* ── Steps list ── */
+    .steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .steps li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r);
+      padding: 10px 14px;
+      font-size: 13px;
+      color: var(--text-mid);
+    }
+
+    .step-num {
+      font-family: 'Courier New', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--accent);
+      background: rgba(74,158,255,0.1);
+      border-radius: 4px;
+      padding: 2px 6px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── Code blocks ── */
+    pre, code {
+      font-family: 'Courier New', Courier, monospace;
+    }
+
+    pre {
+      background: var(--panel);
+      border: 1px solid var(--line-mid);
+      border-radius: var(--r);
+      padding: 16px 18px;
+      font-size: 12px;
+      color: #a8d8ff;
+      overflow-x: auto;
+      margin: 14px 0 20px;
+      line-height: 1.65;
+    }
+
+    code {
+      background: rgba(74,158,255,0.1);
+      border: 1px solid rgba(74,158,255,0.2);
+      border-radius: 3px;
+      padding: 1px 6px;
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    pre code {
+      background: none;
+      border: none;
+      padding: 0;
+      color: inherit;
+      font-size: inherit;
+    }
+
+    .code-label {
+      font-family: 'Courier New', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: var(--text-lo);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    /* ── Info / Warning cards ── */
+    .info-card {
+      background: rgba(74,158,255,0.06);
+      border: 1px solid rgba(74,158,255,0.2);
+      border-left: 3px solid var(--accent);
+      border-radius: var(--r);
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text-mid);
+      margin: 14px 0 20px;
+      line-height: 1.65;
+    }
+
+    .warn-card {
+      background: rgba(245,166,35,0.06);
+      border: 1px solid rgba(245,166,35,0.2);
+      border-left: 3px solid var(--amber);
+      border-radius: var(--r);
+      padding: 12px 16px;
+      font-size: 13px;
+      color: var(--text-mid);
+      margin: 14px 0 20px;
+      line-height: 1.65;
+    }
+
+    .info-card strong, .warn-card strong { color: var(--text-hi); }
+
+    /* ── Permissions table ── */
+    .perm-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+      font-size: 13px;
+    }
+
+    .perm-table th {
+      text-align: left;
+      padding: 8px 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 9px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: var(--text-lo);
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--line-mid);
+    }
+
+    .perm-table td {
+      padding: 10px 12px;
+      border-bottom: 1px solid var(--line);
+      color: var(--text-mid);
+      vertical-align: top;
+    }
+
+    .perm-table tr:last-child td { border-bottom: none; }
+
+    .perm-table td:first-child {
+      font-family: 'Courier New', monospace;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .perm-tag {
+      display: inline-block;
+      background: rgba(52,201,138,0.1);
+      border: 1px solid rgba(52,201,138,0.2);
+      border-radius: 3px;
+      padding: 1px 7px;
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--green);
+      margin-top: 4px;
+    }
+
+    /* ── Browser compat grid ── */
+    .compat-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .compat-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--r2);
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .compat-icon { font-size: 24px; margin-bottom: 8px; }
+    .compat-name { font-size: 13px; font-weight: 600; color: var(--text-hi); margin-bottom: 4px; }
+    .compat-ver  { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text-lo); }
+    .compat-ok   { color: var(--green); font-size: 12px; font-weight: 600; margin-top: 6px; }
+
+    /* ── Footer ── */
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--line);
+      padding: 28px 24px;
+    }
+
+    .footer-inner {
+      max-width: 860px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copy {
+      font-size: 12px;
+      color: var(--text-lo);
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 20px;
+    }
+
+    .footer-links a {
+      font-size: 12px;
+      color: var(--text-lo);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .footer-links a:hover { color: var(--accent); }
+
+    /* ── Responsive ── */
+    @media (max-width: 680px) {
+      .layout { grid-template-columns: 1fr; }
+      .toc { display: none; }
+      .hero h1 { font-size: 24px; }
+      .compat-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="https://guyleyne.github.io/legal.mycarbone/" class="brand">
+      <div class="brand-logo">
+        <svg width="22" height="16" viewBox="0 0 20 14" fill="none">
+          <path d="M1 7 C3 1, 10 0, 18 2 C20 6, 17 13, 9 13 C4 13, 1 10, 1 7Z" fill="#111c2a" stroke="#2a3f52" stroke-width="0.8"/>
+          <path d="M10 3.5L7.5 7.5H10L8.5 11L13 6.5H10.5L12.5 3.5Z" fill="url(#lg)" />
+          <defs>
+            <linearGradient id="lg" x1="10" y1="3.5" x2="10" y2="11" gradientUnits="userSpaceOnUse">
+              <stop offset="0%" stop-color="#aaff00"/>
+              <stop offset="100%" stop-color="#22aa00"/>
+            </linearGradient>
+          </defs>
+        </svg>
+      </div>
+      <div>
+        <div class="brand-name">MyCarbone</div>
+        <div class="brand-sub">Extension navigateur</div>
+      </div>
+    </a>
+    <div class="header-badge">v4.1.0</div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Documentation entreprise</div>
+  <h1>Guide de déploiement</h1>
+  <p class="hero-desc">
+    Instructions complètes pour déployer MyCarbone sur un parc d'entreprise via Google Workspace, Microsoft Intune, GPO Active Directory ou Firefox Enterprise.
+  </p>
+  <div class="hero-meta">
+    <div class="hero-meta-item">Version <span>4.1.0</span></div>
+    <div class="hero-meta-item">Mise à jour <span>21 février 2026</span></div>
+    <div class="hero-meta-item">Contact <span>contact@mycarbone.app</span></div>
+  </div>
+</div>
+
+<!-- PRIVACY BANNER -->
+<div class="privacy-banner">
+  <div class="privacy-alert">
+    <strong>🔒 Zéro collecte de données.</strong> MyCarbone ne transmet aucune donnée à des serveurs externes. Toutes les statistiques CO₂ restent dans le profil navigateur de chaque utilisateur. Aucune infrastructure backend requise.
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="layout">
+
+  <!-- TOC -->
+  <nav class="toc">
+    <div class="toc-title">Sommaire</div>
+    <ul>
+      <li><a href="#section-1">1. Prérequis</a></li>
+      <li><a href="#compat" class="sub">Compatibilité</a></li>
+      <li><a href="#permissions" class="sub">Permissions</a></li>
+      <li><a href="#section-2">2. Déploiement Chrome</a></li>
+      <li><a href="#workspace" class="sub">Google Workspace</a></li>
+      <li><a href="#intune" class="sub">Microsoft Intune</a></li>
+      <li><a href="#gpo" class="sub">GPO Active Directory</a></li>
+      <li><a href="#offline" class="sub">Hors ligne / .crx</a></li>
+      <li><a href="#section-3">3. Déploiement Firefox</a></li>
+      <li><a href="#firefox-esr" class="sub">Firefox ESR</a></li>
+      <li><a href="#firefox-intune" class="sub">Intune pour Firefox</a></li>
+      <li><a href="#section-4">4. Configuration centralisée</a></li>
+      <li><a href="#section-5">5. Mises à jour</a></li>
+      <li><a href="#section-6">6. Sécurité & RGPD</a></li>
+      <li><a href="#section-7">7. Support</a></li>
+    </ul>
+  </nav>
+
+  <!-- CONTENT -->
+  <main class="content">
+
+    <!-- 1. Prérequis -->
+    <section id="section-1">
+      <div class="section-num">Section 01</div>
+      <h2>Prérequis et compatibilité</h2>
+
+      <h3 id="compat">Navigateurs supportés</h3>
+      <div class="compat-grid">
+        <div class="compat-card">
+          <div class="compat-icon">🌐</div>
+          <div class="compat-name">Chrome</div>
+          <div class="compat-ver">v88+</div>
+          <div class="compat-ok">✓ Manifest V3</div>
+        </div>
+        <div class="compat-card">
+          <div class="compat-icon">🔷</div>
+          <div class="compat-name">Edge</div>
+          <div class="compat-ver">v88+</div>
+          <div class="compat-ok">✓ Manifest V3</div>
+        </div>
+        <div class="compat-card">
+          <div class="compat-icon">🦊</div>
+          <div class="compat-name">Firefox ESR</div>
+          <div class="compat-ver">v91+</div>
+          <div class="compat-ok">✓ Manifest V2</div>
+        </div>
+        <div class="compat-card">
+          <div class="compat-icon">🦁</div>
+          <div class="compat-name">Brave</div>
+          <div class="compat-ver">v1.30+</div>
+          <div class="compat-ok">✓ Compatible</div>
+        </div>
+        <div class="compat-card">
+          <div class="compat-icon">🟠</div>
+          <div class="compat-name">Opera</div>
+          <div class="compat-ver">v74+</div>
+          <div class="compat-ok">✓ Compatible</div>
+        </div>
+        <div class="compat-card">
+          <div class="compat-icon">🍎</div>
+          <div class="compat-name">Safari</div>
+          <div class="compat-ver">—</div>
+          <div style="color:var(--text-lo);font-size:12px;margin-top:6px;">Non supporté</div>
+        </div>
+      </div>
+
+      <h3 id="permissions">Permissions requises</h3>
+      <p>L'extension requiert les permissions ci-dessous. Elles doivent être autorisées dans vos politiques de groupe :</p>
+
+      <table class="perm-table">
+        <thead>
+          <tr>
+            <th>Permission</th>
+            <th>Usage</th>
+            <th>Obligatoire</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>storage</td>
+            <td>Stockage local des statistiques CO₂ dans le profil navigateur uniquement. Aucune donnée transmise à l'extérieur.</td>
+            <td><span class="perm-tag">OUI</span></td>
+          </tr>
+          <tr>
+            <td>webRequest</td>
+            <td>Interception des URLs de destination pour détecter les appels vers les plateformes IA. Le contenu des requêtes n'est jamais lu.</td>
+            <td><span class="perm-tag">OUI</span></td>
+          </tr>
+          <tr>
+            <td>notifications</td>
+            <td>Alertes lorsque le budget carbone quotidien est atteint. Peut être désactivé par l'utilisateur ou via GPO.</td>
+            <td><span style="color:var(--text-lo);font-size:11px;">optionnel</span></td>
+          </tr>
+          <tr>
+            <td>downloads</td>
+            <td>Génération et téléchargement local des rapports PDF/HTML. Aucune donnée ne transite par un serveur.</td>
+            <td><span style="color:var(--text-lo);font-size:11px;">optionnel</span></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="info-card">
+        <strong>Note DSI v4.1 :</strong> La permission <code>activeTab</code> a été retirée dans cette version (non utilisée). La permission <code>&lt;all_urls&gt;</code> a été remplacée par une liste explicite de 25 domaines correspondant aux plateformes IA surveillées.
+      </div>
+    </section>
+
+    <!-- 2. Chrome -->
+    <section id="section-2">
+      <div class="section-num">Section 02</div>
+      <h2>Déploiement Chromium (Chrome, Edge, Brave)</h2>
+
+      <h3 id="workspace">2.1 — Via Google Workspace (recommandé)</h3>
+      <p>Pour les entreprises utilisant Google Workspace, le déploiement se fait via la Google Admin Console :</p>
+      <ol class="steps">
+        <li><span class="step-num">01</span>Connectez-vous à <code>admin.google.com</code> avec un compte Super Admin</li>
+        <li><span class="step-num">02</span>Allez dans : <strong>Appareils &gt; Chrome &gt; Applications et extensions &gt; Utilisateurs et navigateurs</strong></li>
+        <li><span class="step-num">03</span>Cliquez sur le bouton <strong>+</strong> en bas à droite &gt; <strong>Ajouter depuis un fichier</strong></li>
+        <li><span class="step-num">04</span>Uploadez le fichier <code>MyCarbone_v4.1_Chromium.zip</code></li>
+        <li><span class="step-num">05</span>Dans <em>Politique d'installation</em>, sélectionnez <strong>Forcer l'installation</strong></li>
+        <li><span class="step-num">06</span>Définissez les unités organisationnelles cibles (départements, équipes)</li>
+        <li><span class="step-num">07</span>Cliquez sur <strong>Enregistrer</strong> — l'extension se déploie automatiquement</li>
+      </ol>
+
+      <h3 id="intune">2.2 — Via Microsoft Intune / Endpoint Manager</h3>
+      <p>Pour les entreprises sous Microsoft 365 avec Intune :</p>
+      <ol class="steps">
+        <li><span class="step-num">01</span>Ouvrez <code>endpoint.microsoft.com</code> &gt; <strong>Applications &gt; Toutes les applications</strong></li>
+        <li><span class="step-num">02</span>Cliquez sur <strong>Ajouter</strong> &gt; Sélectionnez <em>Extension de navigateur Chrome/Edge</em></li>
+        <li><span class="step-num">03</span>Saisissez l'ID de l'extension (disponible après publication sur le Chrome Web Store)</li>
+      </ol>
+      <p>Ou utilisez la configuration JSON pour un déploiement hors-store :</p>
+      <div class="code-label">Chrome / Edge — Intune JSON</div>
+      <pre><code>ExtensionInstallForcelist = [
+  "ID_EXTENSION;https://clients2.google.com/service/update2/crx"
+]</code></pre>
+      <p>Pour <strong>Edge</strong> spécifiquement, dans la console Intune, utilisez le paramètre :</p>
+      <div class="code-label">Edge — paramètre Intune</div>
+      <pre><code>ExtensionInstallForcelist (Microsoft Edge)
+Valeur : ID_EXTENSION_MYCARBONE</code></pre>
+
+      <h3 id="gpo">2.3 — Via GPO (Group Policy Object) — Active Directory</h3>
+      <p>Pour les parcs Windows sous Active Directory sans Intune :</p>
+      <ol class="steps">
+        <li><span class="step-num">01</span>Téléchargez les modèles ADMX Chrome depuis le site officiel Google</li>
+        <li><span class="step-num">02</span>Copiez les fichiers <code>.admx</code> et <code>.adml</code> dans votre Central Store GPO</li>
+        <li><span class="step-num">03</span>Ouvrez la Gestion des stratégies de groupe (<code>gpmc.msc</code>)</li>
+        <li><span class="step-num">04</span>Créez ou modifiez une GPO existante et naviguez vers :</li>
+      </ol>
+      <div class="code-label">Chemin GPO</div>
+      <pre><code>Configuration ordinateur
+  > Modèles d'administration
+  > Google > Google Chrome > Extensions
+  > Configurer la liste des extensions dont l'installation est imposée</code></pre>
+      <ol class="steps" style="margin-top:10px">
+        <li><span class="step-num">05</span>Ajoutez l'ID de l'extension MyCarbone avec l'URL de mise à jour</li>
+        <li><span class="step-num">06</span>Liez la GPO aux UO (Unités Organisationnelles) cibles</li>
+        <li><span class="step-num">07</span>Forcez la mise à jour des stratégies : <code>gpupdate /force</code></li>
+      </ol>
+
+      <h3 id="offline">2.4 — Déploiement local sans store (hors ligne)</h3>
+      <p>Pour les environnements sans accès internet ou sans Chrome Web Store :</p>
+      <ol class="steps">
+        <li><span class="step-num">01</span>Convertissez le <code>.zip</code> en fichier <code>.crx</code> (format extension Chrome signé)</li>
+        <li><span class="step-num">02</span>Hébergez le fichier <code>.crx</code> sur votre serveur interne</li>
+        <li><span class="step-num">03</span>Dans la GPO, définissez l'URL de mise à jour vers votre serveur :</li>
+      </ol>
+      <div class="code-label">ExtensionInstallForcelist</div>
+      <pre><code>ID;https://votre-serveur-interne.com/mycarbone/update.xml</code></pre>
+      <div class="info-card">
+        Le fichier <code>update.xml</code> doit suivre le format standard <em>Chrome Extension Update Manifest</em>.
+      </div>
+    </section>
+
+    <!-- 3. Firefox -->
+    <section id="section-3">
+      <div class="section-num">Section 03</div>
+      <h2>Déploiement Firefox (version Mozilla)</h2>
+
+      <h3 id="firefox-esr">3.1 — Via Mozilla Enterprise (Firefox ESR recommandé)</h3>
+      <p>Mozilla recommande <strong>Firefox ESR</strong> (Extended Support Release) pour les entreprises. Le déploiement se fait via un fichier <code>policies.json</code> placé sur le poste.</p>
+      <ol class="steps">
+        <li><span class="step-num">01</span>Placez le fichier <code>MyCarbone_v4.1_Mozilla.zip</code> sur votre serveur de distribution</li>
+        <li><span class="step-num">02</span>Créez le fichier <code>policies.json</code> dans le dossier d'installation Firefox selon votre OS :</li>
+      </ol>
+      <div class="code-label">Chemins selon OS</div>
+      <pre><code>Windows : C:\Program Files\Mozilla Firefox\distribution\policies.json
+macOS   : /Applications/Firefox.app/Contents/Resources/distribution/policies.json
+Linux   : /usr/lib/firefox/distribution/policies.json</code></pre>
+      <div class="code-label">Contenu de policies.json</div>
+      <pre><code>{
+  "policies": {
+    "Extensions": {
+      "Install": [
+        "https://votre-serveur/mycarbone.xpi"
+      ],
+      "Locked": ["mycarbone@extension"]
+    }
+  }
+}</code></pre>
+      <div class="info-card">
+        Le paramètre <code>"Locked"</code> empêche les utilisateurs de désinstaller l'extension sans droits administrateur.
+      </div>
+
+      <h3 id="firefox-intune">3.2 — Via Intune pour Firefox</h3>
+      <p>Intune peut déployer des extensions Firefox via un script PowerShell ou un paquet applicatif :</p>
+      <div class="code-label">Script PowerShell — déploiement Firefox</div>
+      <pre><code># Script PowerShell de déploiement Firefox
+$policyPath = "HKLM:\SOFTWARE\Policies\Mozilla\Firefox\Extensions\Install"
+New-Item -Path $policyPath -Force
+Set-ItemProperty -Path $policyPath -Name "1" -Value "https://votre-serveur/mycarbone.xpi"</code></pre>
+    </section>
+
+    <!-- 4. Config centralisée -->
+    <section id="section-4">
+      <div class="section-num">Section 04</div>
+      <h2>Configuration centralisée (optionnel)</h2>
+      <p>Par défaut, chaque utilisateur gère ses propres paramètres localement. Pour pré-configurer MyCarbone sur tous les postes (budget par défaut, alertes) :</p>
+      <div class="code-label">Script d'injection — configuration par défaut</div>
+      <pre><code>// À exécuter dans le contexte de l'extension via GPO/Intune
+chrome.storage.local.set({
+  budget: { enabled: true, daily: 50 },
+  lastResetDate: new Date().toDateString()
+});</code></pre>
+      <p>Paramètres configurables à l'échelle de l'entreprise :</p>
+      <ul class="steps">
+        <li><span class="step-num">→</span>Budget CO₂ quotidien par défaut (recommandé : <strong>30–50 g</strong> pour un usage standard)</li>
+        <li><span class="step-num">→</span>Activation des alertes notifications (recommandé : activé)</li>
+        <li><span class="step-num">→</span>Période de conservation de l'historique (défaut : 30 jours)</li>
+      </ul>
+    </section>
+
+    <!-- 5. Mises à jour -->
+    <section id="section-5">
+      <div class="section-num">Section 05</div>
+      <h2>Gestion des mises à jour</h2>
+      <p>Les mises à jour sont gérées différemment selon le canal de déploiement :</p>
+      <table class="perm-table">
+        <thead>
+          <tr><th>Canal</th><th>Mécanisme de mise à jour</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Chrome Web Store</td>
+            <td>Mise à jour automatique via le mécanisme natif du store. Aucune action requise.</td>
+          </tr>
+          <tr>
+            <td>Google Workspace</td>
+            <td>Mise à jour du fichier <code>.zip</code> dans l'Admin Console. Les postes se mettent à jour à la prochaine synchronisation.</td>
+          </tr>
+          <tr>
+            <td>GPO / Intune hors-store</td>
+            <td>Mettre à jour le fichier <code>.crx</code> sur le serveur interne et incrémenter la version dans <code>update.xml</code>.</td>
+          </tr>
+          <tr>
+            <td>Firefox Enterprise</td>
+            <td>Remplacer le fichier <code>.xpi</code> sur le serveur de distribution. Firefox vérifie les mises à jour automatiquement.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 6. Sécurité -->
+    <section id="section-6">
+      <div class="section-num">Section 06</div>
+      <h2>Sécurité et conformité</h2>
+
+      <h3>6.1 — Points d'attention pour votre DSI</h3>
+      <table class="perm-table">
+        <thead>
+          <tr><th>Permission</th><th>Ce qu'elle fait réellement</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>webRequest</td>
+            <td>Intercepte uniquement les <strong>URLs de destination</strong> vers les 25 domaines IA listés. Le contenu des requêtes et réponses n'est jamais lu ni stocké.</td>
+          </tr>
+          <tr>
+            <td>storage</td>
+            <td>Isolé par profil navigateur, inaccessible aux autres extensions. Données supprimables via l'interface ou à la désinstallation.</td>
+          </tr>
+          <tr>
+            <td>downloads</td>
+            <td>Utilisé uniquement pour générer les rapports HTML/PDF locaux. Aucune donnée ne transite par un serveur externe.</td>
+          </tr>
+          <tr>
+            <td>notifications</td>
+            <td>Peut être désactivé via GPO si non souhaité dans votre contexte.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>6.2 — Conformité RGPD</h3>
+      <p>MyCarbone a été conçu pour être conforme au RGPD nativement :</p>
+      <ul class="steps">
+        <li><span class="step-num">✓</span>Aucune donnée personnelle collectée ni traitée par l'éditeur</li>
+        <li><span class="step-num">✓</span>Les données restent dans le profil navigateur de l'utilisateur (responsabilité de l'entreprise)</li>
+        <li><span class="step-num">✓</span>Droit à l'effacement : bouton de réinitialisation disponible dans l'interface</li>
+        <li><span class="step-num">✓</span>Portabilité : export HTML/PDF des données disponible à tout moment</li>
+      </ul>
+      <div class="warn-card">
+        <strong>Recommandation DPO :</strong> Si vous déployez MyCarbone pour surveiller les usages IA de vos collaborateurs dans le cadre d'un bilan RSE ou d'un audit ESG, nous vous recommandons d'informer les employés concernés conformément à l'article 13 du RGPD.
+      </div>
+    </section>
+
+    <!-- 7. Support -->
+    <section id="section-7">
+      <div class="section-num">Section 07</div>
+      <h2>Support et contact</h2>
+      <p>Pour toute question relative au déploiement enterprise :</p>
+      <ul class="steps">
+        <li><span class="step-num">📧</span>Email : <strong>contact@mycarbone.app</strong> — objet suggéré : <code>[Entreprise] Votre demande</code></li>
+        <li><span class="step-num">⏱</span>Délai de réponse garanti sous <strong>48 heures ouvrées</strong></li>
+        <li><span class="step-num">🔒</span>Politique de confidentialité complète : <a href="https://guyleyne.github.io/legal.mycarbone/" style="color:var(--accent)">guyleyne.github.io/legal.mycarbone</a></li>
+      </ul>
+    </section>
+
+  </main>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">© 2026 MyCarbone · Extension indépendante · v4.1.0</div>
+    <div class="footer-links">
+      <a href="https://guyleyne.github.io/legal.mycarbone/">Politique de confidentialité</a>
+      <a href="mailto:contact@mycarbone.app">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
